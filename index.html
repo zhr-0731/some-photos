@@ -18,7 +18,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow-x: hidden;
+            padding: 20px;
         }
         
         .background-blur {
@@ -40,6 +41,29 @@
             overflow: hidden;
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
             position: relative;
+        }
+        
+        /* 标题样式 */
+        .page-title {
+            text-align: center;
+            color: white;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+        }
+        
+        .page-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(to right, #6a5af9, #d66efd);
+            border-radius: 2px;
         }
         
         .carousel {
@@ -74,6 +98,38 @@
         
         .container:hover .carousel-caption {
             opacity: 1;
+        }
+        
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 10;
+        }
+        
+        .carousel-btn {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .carousel-btn:hover {
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
         }
         
         .carousel-indicators {
@@ -203,6 +259,16 @@
             .weather-temp {
                 font-size: 1.1rem;
             }
+            
+            .page-title {
+                font-size: 2rem;
+            }
+            
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
         }
         
         @media (max-width: 480px) {
@@ -234,6 +300,16 @@
             .weather-condition {
                 font-size: 0.8rem;
             }
+            
+            .page-title {
+                font-size: 1.8rem;
+            }
+            
+            .carousel-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
@@ -252,22 +328,42 @@
         </div>
     </div>
     
-    <div class="container">
-        <div class="loading-spinner"></div>
+    <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <h1 class="page-title">图片展示</h1>
         
-        <div class="carousel">
-            <div class="carousel-item">
-                <img src="https://youke1.picui.cn/s1/2025/10/07/68e47ad1da961.jpg" alt="展示图片" class="carousel-image">
-                <div class="carousel-caption">
-                    <!-- 标题和描述已删除 -->
+        <div class="container">
+            <div class="loading-spinner"></div>
+            
+            <div class="carousel" id="imageCarousel">
+                <div class="carousel-item">
+                    <img src="https://youke1.picui.cn/s1/2025/10/07/68e47ad1da961.jpg" alt="展示图片" class="carousel-image">
+                    <div class="carousel-caption">
+                        <!-- 标题和描述已删除 -->
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <img src="https://youke1.picui.cn/s1/2025/10/07/68e489fb2845a.png" alt="展示图片" class="carousel-image">
+                    <div class="carousel-caption">
+                        <!-- 标题和描述已删除 -->
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        <div class="image-counter">1 / 1</div>
-        
-        <div class="carousel-indicators">
-            <div class="indicator active"></div>
+            
+            <div class="carousel-controls">
+                <button class="carousel-btn prev-btn" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="carousel-btn next-btn" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+            
+            <div class="image-counter" id="imageCounter">1 / 2</div>
+            
+            <div class="carousel-indicators" id="carouselIndicators">
+                <div class="indicator active" data-index="0"></div>
+                <div class="indicator" data-index="1"></div>
+            </div>
         </div>
     </div>
 
@@ -275,6 +371,71 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
     <script>
+        // 轮播功能
+        function initCarousel() {
+            const carousel = document.getElementById('imageCarousel');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const indicators = document.querySelectorAll('.indicator');
+            const imageCounter = document.getElementById('imageCounter');
+            
+            let currentIndex = 0;
+            const totalItems = document.querySelectorAll('.carousel-item').length;
+            
+            // 更新轮播位置
+            function updateCarousel() {
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                // 更新指示器状态
+                indicators.forEach((indicator, index) => {
+                    indicator.classList.toggle('active', index === currentIndex);
+                });
+                
+                // 更新计数器
+                imageCounter.textContent = `${currentIndex + 1} / ${totalItems}`;
+            }
+            
+            // 下一张图片
+            function nextSlide() {
+                currentIndex = (currentIndex + 1) % totalItems;
+                updateCarousel();
+            }
+            
+            // 上一张图片
+            function prevSlide() {
+                currentIndex = (currentIndex - 1 + totalItems) % totalItems;
+                updateCarousel();
+            }
+            
+            // 点击指示器跳转到指定图片
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', () => {
+                    currentIndex = parseInt(indicator.getAttribute('data-index'));
+                    updateCarousel();
+                });
+            });
+            
+            // 添加按钮事件
+            prevBtn.addEventListener('click', prevSlide);
+            nextBtn.addEventListener('click', nextSlide);
+            
+            // 自动轮播
+            let autoPlayInterval = setInterval(nextSlide, 5000);
+            
+            // 鼠标悬停时暂停自动轮播
+            const carouselContainer = document.querySelector('.container');
+            carouselContainer.addEventListener('mouseenter', () => {
+                clearInterval(autoPlayInterval);
+            });
+            
+            carouselContainer.addEventListener('mouseleave', () => {
+                autoPlayInterval = setInterval(nextSlide, 5000);
+            });
+            
+            // 初始化轮播
+            updateCarousel();
+        }
+        
         // 天气功能 - 使用心知天气API
         async function fetchWeather() {
             try {
@@ -347,28 +508,47 @@
             }
         }
         
-        document.addEventListener('DOMContentLoaded', function() {
-            // 图片加载完成后隐藏加载动画
-            const image = document.querySelector('.carousel-image');
+        // 图片加载完成后隐藏加载动画
+        function hideLoadingSpinner() {
+            const images = document.querySelectorAll('.carousel-image');
             const spinner = document.querySelector('.loading-spinner');
+            let loadedCount = 0;
             
-            image.addEventListener('load', function() {
-                spinner.style.display = 'none';
+            images.forEach(img => {
+                if (img.complete) {
+                    loadedCount++;
+                } else {
+                    img.addEventListener('load', () => {
+                        loadedCount++;
+                        if (loadedCount === images.length) {
+                            spinner.style.display = 'none';
+                        }
+                    });
+                }
             });
             
-            // 如果图片已经缓存，立即隐藏加载动画
-            if (image.complete) {
+            // 如果所有图片都已加载完成
+            if (loadedCount === images.length) {
                 spinner.style.display = 'none';
             }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化轮播
+            initCarousel();
             
             // 获取天气信息
             fetchWeather();
             
+            // 隐藏加载动画
+            hideLoadingSpinner();
+            
             // 添加键盘导航支持
             document.addEventListener('keydown', function(e) {
-                // 虽然只有一张图片，但保留键盘事件结构以便扩展
-                if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                    // 这里可以添加多图轮播逻辑
+                if (e.key === 'ArrowLeft') {
+                    document.getElementById('prevBtn').click();
+                } else if (e.key === 'ArrowRight') {
+                    document.getElementById('nextBtn').click();
                 }
             });
             
@@ -386,7 +566,11 @@
                 
                 // 滑动阈值
                 if (Math.abs(diff) > 50) {
-                    // 这里可以添加多图轮播逻辑
+                    if (diff > 0) {
+                        document.getElementById('nextBtn').click();
+                    } else {
+                        document.getElementById('prevBtn').click();
+                    }
                 }
             });
         });
