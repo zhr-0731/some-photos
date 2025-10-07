@@ -78,7 +78,8 @@
         
         .carousel-image {
             width: 100%;
-            height: auto;
+            height: 500px;
+            object-fit: cover;
             display: block;
             border-radius: 20px;
         }
@@ -229,6 +230,82 @@
             margin-top: 3px;
         }
         
+        /* 图片列表样式 */
+        .image-list-container {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(30, 30, 40, 0.8);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            max-width: 1000px;
+        }
+        
+        .image-list-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .image-list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            justify-items: center;
+        }
+        
+        .thumbnail-item {
+            width: 100%;
+            max-width: 280px;
+            height: 180px;
+            border-radius: 10px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            opacity: 0.7;
+            position: relative;
+        }
+        
+        .thumbnail-item:hover {
+            transform: scale(1.03);
+            opacity: 0.9;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .thumbnail-item.active {
+            border-color: #6a5af9;
+            opacity: 1;
+            transform: scale(1.03);
+            box-shadow: 0 10px 20px rgba(106, 90, 249, 0.3);
+        }
+        
+        .thumbnail-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        
+        .thumbnail-number {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
         @keyframes spin {
             to { transform: translate(-50%, -50%) rotate(360deg); }
         }
@@ -268,6 +345,25 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
+            }
+            
+            .carousel-image {
+                height: 350px;
+            }
+            
+            .image-list {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            
+            .thumbnail-item {
+                height: 140px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .image-list {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
@@ -310,6 +406,36 @@
                 height: 35px;
                 font-size: 0.9rem;
             }
+            
+            .carousel-image {
+                height: 250px;
+            }
+            
+            .image-list {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            
+            .thumbnail-item {
+                height: 120px;
+            }
+            
+            .thumbnail-number {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .image-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .thumbnail-item {
+                height: 180px;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
@@ -335,14 +461,57 @@
             <div class="loading-spinner"></div>
             
             <div class="carousel" id="imageCarousel">
+                <!-- 原有图片1 -->
                 <div class="carousel-item">
                     <img src="https://youke1.picui.cn/s1/2025/10/07/68e47ad1da961.jpg" alt="展示图片" class="carousel-image">
                     <div class="carousel-caption">
                         <!-- 标题和描述已删除 -->
                     </div>
                 </div>
+                
+                <!-- 原有图片2 -->
                 <div class="carousel-item">
                     <img src="https://youke1.picui.cn/s1/2025/10/07/68e489fb2845a.png" alt="展示图片" class="carousel-image">
+                    <div class="carousel-caption">
+                        <!-- 标题和描述已删除 -->
+                    </div>
+                </div>
+                
+                <!-- 新增图片1 -->
+                <div class="carousel-item">
+                    <img src="https://youke1.picui.cn/s1/2025/10/07/68e48c7d08aff.jpg" alt="展示图片" class="carousel-image">
+                    <div class="carousel-caption">
+                        <!-- 标题和描述已删除 -->
+                    </div>
+                </div>
+                
+                <!-- 新增图片2 -->
+                <div class="carousel-item">
+                    <img src="https://youke1.picui.cn/s1/2025/10/07/68e48c7f7d2fc.jpg" alt="展示图片" class="carousel-image">
+                    <div class="carousel-caption">
+                        <!-- 标题和描述已删除 -->
+                    </div>
+                </div>
+                
+                <!-- 新增图片3 -->
+                <div class="carousel-item">
+                    <img src="https://youke1.picui.cn/s1/2025/10/07/68e48c7f4f265.jpg" alt="展示图片" class="carousel-image">
+                    <div class="carousel-caption">
+                        <!-- 标题和描述已删除 -->
+                    </div>
+                </div>
+                
+                <!-- 新增图片4 -->
+                <div class="carousel-item">
+                    <img src="https://youke1.picui.cn/s1/2025/10/07/68e48c7f5f73d.jpg" alt="展示图片" class="carousel-image">
+                    <div class="carousel-caption">
+                        <!-- 标题和描述已删除 -->
+                    </div>
+                </div>
+                
+                <!-- 新增图片5 -->
+                <div class="carousel-item">
+                    <img src="https://youke1.picui.cn/s1/2025/10/07/68e48c7f69e8d.jpg" alt="展示图片" class="carousel-image">
                     <div class="carousel-caption">
                         <!-- 标题和描述已删除 -->
                     </div>
@@ -358,11 +527,24 @@
                 </button>
             </div>
             
-            <div class="image-counter" id="imageCounter">1 / 2</div>
+            <div class="image-counter" id="imageCounter">1 / 7</div>
             
             <div class="carousel-indicators" id="carouselIndicators">
                 <div class="indicator active" data-index="0"></div>
                 <div class="indicator" data-index="1"></div>
+                <div class="indicator" data-index="2"></div>
+                <div class="indicator" data-index="3"></div>
+                <div class="indicator" data-index="4"></div>
+                <div class="indicator" data-index="5"></div>
+                <div class="indicator" data-index="6"></div>
+            </div>
+        </div>
+        
+        <!-- 图片列表 -->
+        <div class="image-list-container">
+            <h3 class="image-list-title">图片列表</h3>
+            <div class="image-list" id="imageList">
+                <!-- 缩略图将通过JavaScript动态生成 -->
             </div>
         </div>
     </div>
@@ -371,6 +553,17 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
     <script>
+        // 图片数据
+        const images = [
+            { src: 'https://youke1.picui.cn/s1/2025/10/07/68e47ad1da961.jpg', alt: '展示图片' },
+            { src: 'https://youke1.picui.cn/s1/2025/10/07/68e489fb2845a.png', alt: '展示图片' },
+            { src: 'https://youke1.picui.cn/s1/2025/10/07/68e48c7d08aff.jpg', alt: '展示图片' },
+            { src: 'https://youke1.picui.cn/s1/2025/10/07/68e48c7f7d2fc.jpg', alt: '展示图片' },
+            { src: 'https://youke1.picui.cn/s1/2025/10/07/68e48c7f4f265.jpg', alt: '展示图片' },
+            { src: 'https://youke1.picui.cn/s1/2025/10/07/68e48c7f5f73d.jpg', alt: '展示图片' },
+            { src: 'https://youke1.picui.cn/s1/2025/10/07/68e48c7f69e8d.jpg', alt: '展示图片' }
+        ];
+        
         // 轮播功能
         function initCarousel() {
             const carousel = document.getElementById('imageCarousel');
@@ -378,9 +571,10 @@
             const nextBtn = document.getElementById('nextBtn');
             const indicators = document.querySelectorAll('.indicator');
             const imageCounter = document.getElementById('imageCounter');
+            const thumbnailItems = document.querySelectorAll('.thumbnail-item');
             
             let currentIndex = 0;
-            const totalItems = document.querySelectorAll('.carousel-item').length;
+            const totalItems = images.length;
             
             // 更新轮播位置
             function updateCarousel() {
@@ -389,6 +583,11 @@
                 // 更新指示器状态
                 indicators.forEach((indicator, index) => {
                     indicator.classList.toggle('active', index === currentIndex);
+                });
+                
+                // 更新缩略图状态
+                thumbnailItems.forEach((item, index) => {
+                    item.classList.toggle('active', index === currentIndex);
                 });
                 
                 // 更新计数器
@@ -407,11 +606,16 @@
                 updateCarousel();
             }
             
+            // 跳转到指定图片
+            function goToSlide(index) {
+                currentIndex = index;
+                updateCarousel();
+            }
+            
             // 点击指示器跳转到指定图片
             indicators.forEach(indicator => {
                 indicator.addEventListener('click', () => {
-                    currentIndex = parseInt(indicator.getAttribute('data-index'));
-                    updateCarousel();
+                    goToSlide(parseInt(indicator.getAttribute('data-index')));
                 });
             });
             
@@ -434,13 +638,44 @@
             
             // 初始化轮播
             updateCarousel();
+            
+            // 返回goToSlide函数，供缩略图使用
+            return { goToSlide };
         }
         
-        // 天气功能 - 使用心知天气API
+        // 初始化图片列表
+        function initImageList() {
+            const imageList = document.getElementById('imageList');
+            
+            images.forEach((image, index) => {
+                const thumbnailItem = document.createElement('div');
+                thumbnailItem.className = 'thumbnail-item';
+                if (index === 0) thumbnailItem.classList.add('active');
+                thumbnailItem.setAttribute('data-index', index);
+                
+                const thumbnailImage = document.createElement('img');
+                thumbnailImage.className = 'thumbnail-image';
+                thumbnailImage.src = image.src;
+                thumbnailImage.alt = image.alt;
+                
+                const thumbnailNumber = document.createElement('div');
+                thumbnailNumber.className = 'thumbnail-number';
+                thumbnailNumber.textContent = index + 1;
+                
+                thumbnailItem.appendChild(thumbnailImage);
+                thumbnailItem.appendChild(thumbnailNumber);
+                imageList.appendChild(thumbnailItem);
+            });
+        }
+        
+        // 天气功能 - 修复API显示问题
         async function fetchWeather() {
             try {
-                // 使用心知天气API获取张家界天气数据
-                const response = await fetch('https://api.seniverse.com/v3/weather/now.json?key=SAfGmI-uzb0eBv4xb&location=zhangjiajie&language=zh-Hans&unit=c');
+                // 严格使用指定的API URL
+                const apiUrl = 'https://api.seniverse.com/v3/weather/now.json?key=SAfGmI-uzb0eBv4xb&location=zhangjiajie&language=zh-Hans&unit=c';
+                
+                // 使用fetch获取天气数据
+                const response = await fetch(apiUrl);
                 
                 if (!response.ok) {
                     throw new Error('天气API请求失败');
@@ -460,34 +695,37 @@
                 const weatherTemp = weatherInfo.querySelector('.weather-temp');
                 const weatherCondition = weatherInfo.querySelector('.weather-condition');
                 
-                // 设置天气图标
-                const weatherConditionCode = data.results[0].now.code;
+                // 设置天气图标 - 根据返回的天气代码
+                const weatherCode = data.results[0].now.code;
                 let iconClass = 'fas fa-sun'; // 默认图标
                 
                 // 根据天气代码设置图标
-                if (weatherConditionCode === '0' || weatherConditionCode === '1' || weatherConditionCode === '2') {
+                if (weatherCode === '0') {
                     iconClass = 'fas fa-sun'; // 晴天
-                } else if (weatherConditionCode === '3' || weatherConditionCode === '4') {
+                } else if (weatherCode === '1' || weatherCode === '2') {
                     iconClass = 'fas fa-cloud-sun'; // 多云
-                } else if (weatherConditionCode === '5' || weatherConditionCode === '6' || weatherConditionCode === '7' || 
-                           weatherConditionCode === '8' || weatherConditionCode === '9') {
+                } else if (weatherCode === '3') {
                     iconClass = 'fas fa-cloud'; // 阴天
-                } else if (weatherConditionCode === '10' || weatherConditionCode === '11' || weatherConditionCode === '12' || 
-                           weatherConditionCode === '13' || weatherConditionCode === '14' || weatherConditionCode === '15') {
-                    iconClass = 'fas fa-cloud-rain'; // 雨天
-                } else if (weatherConditionCode === '16' || weatherConditionCode === '17' || weatherConditionCode === '18') {
+                } else if (weatherCode >= '4' && weatherCode <= '9') {
+                    iconClass = 'fas fa-cloud-sun-rain'; // 阵雨
+                } else if (weatherCode >= '10' && weatherCode <= '12') {
+                    iconClass = 'fas fa-cloud-rain'; // 雨
+                } else if (weatherCode >= '13' && weatherCode <= '18') {
                     iconClass = 'fas fa-bolt'; // 雷雨
-                } else if (weatherConditionCode === '19' || weatherConditionCode === '20' || weatherConditionCode === '21' || 
-                           weatherConditionCode === '22' || weatherConditionCode === '23') {
-                    iconClass = 'fas fa-snowflake'; // 雪天
-                } else if (weatherConditionCode === '24' || weatherConditionCode === '25') {
-                    iconClass = 'fas fa-smog'; // 雾霾
+                } else if (weatherCode >= '19' && weatherCode <= '25') {
+                    iconClass = 'fas fa-snowflake'; // 雪
+                } else if (weatherCode === '26') {
+                    iconClass = 'fas fa-smog'; // 雾
+                } else if (weatherCode === '27' || weatherCode === '28') {
+                    iconClass = 'fas fa-smog'; // 浮尘/扬沙
+                } else if (weatherCode === '29' || weatherCode === '30' || weatherCode === '31') {
+                    iconClass = 'fas fa-wind'; // 大风
                 }
                 
                 weatherIcon.className = iconClass;
                 
                 // 设置位置和温度
-                weatherLocation.textContent = '湖南，张家界';
+                weatherLocation.textContent = data.results[0].location.name;
                 weatherTemp.textContent = `${data.results[0].now.temperature}℃`;
                 weatherCondition.textContent = data.results[0].now.text;
                 
@@ -501,8 +739,8 @@
                     </div>
                     <div class="weather-details">
                         <div class="weather-location">湖南，张家界</div>
-                        <div class="weather-temp">22℃</div>
-                        <div class="weather-condition">晴朗</div>
+                        <div class="weather-temp">32℃</div>
+                        <div class="weather-condition">晴</div>
                     </div>
                 `;
             }
@@ -510,7 +748,7 @@
         
         // 图片加载完成后隐藏加载动画
         function hideLoadingSpinner() {
-            const images = document.querySelectorAll('.carousel-image');
+            const images = document.querySelectorAll('.carousel-image, .thumbnail-image');
             const spinner = document.querySelector('.loading-spinner');
             let loadedCount = 0;
             
@@ -534,8 +772,19 @@
         }
         
         document.addEventListener('DOMContentLoaded', function() {
+            // 初始化图片列表
+            initImageList();
+            
             // 初始化轮播
-            initCarousel();
+            const carousel = initCarousel();
+            
+            // 为缩略图添加点击事件
+            document.querySelectorAll('.thumbnail-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = parseInt(item.getAttribute('data-index'));
+                    carousel.goToSlide(index);
+                });
+            });
             
             // 获取天气信息
             fetchWeather();
